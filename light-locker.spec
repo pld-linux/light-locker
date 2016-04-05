@@ -1,11 +1,11 @@
 Summary:	A simple session-locker for lightdm 
 Name:		light-locker
-Version:	1.6.0
+Version:	1.7.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	https://github.com/the-cavalry/light-locker/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	23e4f0de0f9d75cd6e7ca79f50e78214
+# Source0-md5:	525b76a4c49c9f0d40e483fbbd085470
 URL:		https://github.com/the-cavalry/light-locker
 BuildRequires:	autoconf
 BuildRequires:	automake
