@@ -1,15 +1,15 @@
-Summary:	A simple session-locker for lightdm 
+Summary:	A simple session-locker for lightdm
 Name:		light-locker
 Version:	1.7.0
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications
 Source0:	https://github.com/the-cavalry/light-locker/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	525b76a4c49c9f0d40e483fbbd085470
 URL:		https://github.com/the-cavalry/light-locker
+BuildRequires:	ConsoleKit-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	ConsoleKit-devel
 BuildRequires:	dbus-devel
 BuildRequires:	glib2-devel >= 1:2.25.6
 BuildRequires:	gtk+3-devel
@@ -18,19 +18,20 @@ BuildRequires:	libtool
 BuildRequires:	pam-devel
 BuildRequires:	systemd-devel
 BuildRequires:	upower-devel
-BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXScrnSaver-devel
-BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRequires:	xfce4-dev-tools
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXScrnSaver-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
+Requires:	glib2 >= 1:2.26.0
 Requires:	lightdm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 light-locker is a simple locker (forked from gnome-screensaver) that
 aims to have simple, sane, secure defaults and be well integrated with
-the desktop while not carrying any desktop-specific dependencies.
-It relies on lightdm for locking and unlocking your session via
+the desktop while not carrying any desktop-specific dependencies. It
+relies on lightdm for locking and unlocking your session via
 ConsoleKit/UPower or logind/systemd.
 
 %prep
@@ -53,14 +54,19 @@ NOCONFIGURE=1 xdt-autogen
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{find_lang} %{name}
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%glib_compile_schemas
+
+%postun
+%glib_compile_schemas
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
